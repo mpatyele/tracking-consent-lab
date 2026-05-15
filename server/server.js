@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const validateConsent = require("./utils/consentValidator");
 
 const app = express();
 const PORT = 3000;
@@ -21,13 +22,19 @@ app.get("/", (req, res) => {
 app.post("/track", (req, res) => {
   const incomingEvent = req.body;
 
+  const eventName = incomingEvent.event_name;
+  const consent = incomingEvent.consent || {};
+
+  const consentResult = validateConsent(eventName, consent);
+
   const processedEvent = {
-    event_name: incomingEvent.event_name,
+    event_name: eventName,
     event_time: new Date().toISOString(),
     source: "server",
-    consent: incomingEvent.consent || {},
-    event_data: incomingEvent.event_data || {},
-    status: "received"
+    consent: consent,
+    event_data: consentResult.allowed ? incomingEvent.event_data || {} : {},// If consent is granted. Save event data.
+    status: consentResult.allowed ? "processed" : "blocked_due_to_consent",
+    reason: consentResult.reason
   };
 
   let existingEvents = [];
@@ -43,10 +50,12 @@ app.post("/track", (req, res) => {
 
   fs.writeFileSync(eventsFilePath, JSON.stringify(existingEvents, null, 2));
 
-  console.log("Event received:", processedEvent);
+  console.log("Event handled:", processedEvent);
 
   res.status(200).json({
-    message: "Event received successfully",
+    message: consentResult.allowed
+      ? "Event processed successfully"
+      : "Event blocked due to consent",
     event: processedEvent
   });
 });
