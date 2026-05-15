@@ -8,7 +8,7 @@
   },
   "scripts": {
   "start": "node server/server.js",
-  "dev": "nodemon --ignore server/events.json server/server.js"
+  "dev": "nodemon --ignore server/data/events.json server/server.js"
   },
   "keywords": [],
   "author": "",

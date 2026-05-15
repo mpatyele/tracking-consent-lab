@@ -160,17 +160,19 @@ Start the backend server:
 npm run dev
 ```
 
-The backend runs on:
+The app runs on:
 
 ```text
 http://localhost:3000
 ```
 
-Open the frontend by opening this file in your browser:
+Open the app in your browser at:
 
 ```text
-client/index.html
+http://localhost:3000
 ```
+
+Important: Do not use VS Code Live Server for this project. Opening the app with Live Server, such as `http://127.0.0.1:5500/client/index.html`, may cause an infinite reload loop because the project writes events to a local JSON file.
 
 ## How to Test the Demo
 

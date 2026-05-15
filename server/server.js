@@ -5,18 +5,20 @@ const path = require("path");
 const validateConsent = require("./utils/consentValidator");
 const sanitizeEventData = require("./utils/sanitizeEvent");
 
+
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "..", "client")));
 
 // Location of our JSON file where events will be saved
-const eventsFilePath = path.join(__dirname, "events.json");
+const eventsFilePath = path.join(__dirname, "data", "events.json");
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Tracking Consent Lab server is running.");
+  res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
 // Tracking endpoint

@@ -1,0 +1,7 @@
+{
+  "liveServer.settings.ignoreFiles": [
+    "**/server/data/events.json",
+    "**/server/events.json",
+    "**/node_modules/**"
+  ]
+}
