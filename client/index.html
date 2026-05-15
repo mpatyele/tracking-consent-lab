@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tracking Consent Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Privacy-first measurement demo</p>
+        <h1>SignalWear Analytics Demo Store</h1>
+        <p class="hero-text">
+          A portfolio project that demonstrates consent-aware server-side event tracking,
+          data sanitization, and e-commerce signal collection.
+        </p>
+      </div>
+
+      <div class="status-card">
+        <p class="status-label">Tracking Status</p>
+        <div id="trackingStatus" class="status denied">Analytics consent not set</div>
+        <p class="status-note">
+          Events are sent to a backend endpoint, validated by consent, sanitized, and logged.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="product-card">
+        <div class="product-image">SW</div>
+
+        <div class="product-content">
+          <p class="tag">Demo Product</p>
+          <h2>SignalWear Performance Hoodie</h2>
+          <p>
+            A fictional e-commerce product used to test analytics events like
+            view_item, add_to_cart, begin_checkout, and purchase.
+          </p>
+
+          <div class="product-meta">
+            <span>$49.99</span>
+            <span>SKU: hoodie_001</span>
+          </div>
+
+          <div class="actions">
+            <button onclick="trackViewItem()">View Product</button>
+            <button onclick="trackAddToCart()">Add to Cart</button>
+            <button onclick="trackBeginCheckout()">Begin Checkout</button>
+            <button onclick="trackPurchase()" class="primary">Complete Purchase</button>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel">
+        <h2>Lead Capture Form</h2>
+        <p>
+          This form intentionally collects name and email so the backend sanitizer
+          can remove sensitive fields before saving the event.
+        </p>
+
+        <form id="leadForm">
+          <label>
+            Name
+            <input type="text" id="leadName" placeholder="Mariana" />
+          </label>
+
+          <label>
+            Email
+            <input type="email" id="leadEmail" placeholder="name@example.com" />
+          </label>
+
+          <button type="submit" class="primary">Submit Lead</button>
+        </form>
+      </aside>
+    </section>
+
+    <section class="debug-panel">
+      <div>
+        <p class="eyebrow">Implementation Debugger</p>
+        <h2>Latest Event Response</h2>
+      </div>
+
+      <pre id="debugOutput">No events sent yet.</pre>
+    </section>
+  </main>
+
+  <section id="consentBanner" class="consent-banner">
+    <div>
+      <h2>Analytics Consent</h2>
+      <p>
+        This demo uses consent preferences to decide whether analytics events
+        should be processed or blocked by the server.
+      </p>
+    </div>
+
+    <div class="consent-actions">
+      <button onclick="rejectAnalytics()">Reject Analytics</button>
+      <button onclick="acceptAnalytics()" class="primary">Accept Analytics</button>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
