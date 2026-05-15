@@ -131,7 +131,8 @@ tracking-consent-lab/
 │
 ├── server/
 │   ├── server.js
-│   ├── events.json
+│   ├── data/
+│   │   └── events.json
 │   └── utils/
 │       ├── consentValidator.js
 │       └── sanitizeEvent.js
