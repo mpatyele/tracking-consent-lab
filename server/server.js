@@ -3,6 +3,7 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const validateConsent = require("./utils/consentValidator");
+const sanitizeEventData = require("./utils/sanitizeEvent");
 
 const app = express();
 const PORT = 3000;
@@ -28,14 +29,14 @@ app.post("/track", (req, res) => {
   const consentResult = validateConsent(eventName, consent);
 
   const processedEvent = {
-    event_name: eventName,
-    event_time: new Date().toISOString(),
-    source: "server",
-    consent: consent,
-    event_data: consentResult.allowed ? incomingEvent.event_data || {} : {},// If consent is granted. Save event data.
-    status: consentResult.allowed ? "processed" : "blocked_due_to_consent",
-    reason: consentResult.reason
-  };
+  event_name: eventName,
+  event_time: new Date().toISOString(),
+  source: "server",
+  consent: consent,
+  event_data: consentResult.allowed ? sanitizeEventData(incomingEvent.event_data) : {},
+  status: consentResult.allowed ? "processed" : "blocked_due_to_consent",
+  reason: consentResult.reason
+};
 
   let existingEvents = [];
 
